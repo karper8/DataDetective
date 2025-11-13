@@ -61,7 +61,7 @@ function LevelPage() {
       const timestamp = new Date().toISOString();
 
       try {
-        await fetch(`${import.meta.env.VITE_API_URL}/submit-level`, {
+        await fetch(`${import.meta.env.VITE_API_BASE}/submit-level`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -93,7 +93,7 @@ function LevelPage() {
   // ✅ Fixed Download Dataset functionality
   const handleDownload = () => {
     // Directly use the currentLevel to access backend
-    window.open(`${import.meta.env.VITE_API_URL}/download/${currentLevel}`, "_blank");
+    window.open(`${import.meta.env.VITE_API_BASE}/download/${currentLevel}`, "_blank");
   };
 
   return (
