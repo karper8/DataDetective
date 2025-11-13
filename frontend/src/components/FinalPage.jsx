@@ -7,21 +7,18 @@ function FinalPage() {
   const [attempts, setAttempts] = useState(0);
   const [message, setMessage] = useState("");
 
-  const correct1 = "protecting personal data";
-  const correct2 = "protecting computer systems";
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setAttempts((prev) => prev + 1);
 
+    const newAttempts = attempts + 1;
+    setAttempts(newAttempts);
+
+    // Convert to IST
     const now = new Date();
     const offsetIST = 5.5 * 60 * 60 * 1000;
     const istTime = new Date(now.getTime() + offsetIST).toISOString();
 
-    if (
-      a1.trim().toLowerCase() === correct1 &&
-      a2.trim().toLowerCase() === correct2
-    ) {
+    try {
       await fetch(`${import.meta.env.VITE_API_BASE}/submit-final`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -29,16 +26,14 @@ function FinalPage() {
           team,
           answer1: a1,
           answer2: a2,
-          attempts: attempts + 1, // ✅ send total attempts for both final answers
+          attempts: newAttempts,
           timestamp: istTime,
         }),
       });
 
-      setMessage(
-        "✅ Congratulations! You’ve completed all levels. Please inform the event coordinator."
-      );
-    } else {
-      setMessage("❌ One or both answers are incorrect. Try again.");
+      setMessage("✅ Your final answers have been submitted successfully!");
+    } catch (err) {
+      setMessage("❌ Error submitting final answers. Try again.");
     }
   };
 
@@ -47,7 +42,7 @@ function FinalPage() {
       <h2>Final Challenge</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          1. What does data privacy focus on?
+          1. Your first answer:
           <input
             type="text"
             value={a1}
@@ -55,8 +50,9 @@ function FinalPage() {
             style={{ display: "block", margin: "10px auto", width: "300px" }}
           />
         </label>
+
         <label>
-          2. What is cybersecurity about?
+          2. Your second answer:
           <input
             type="text"
             value={a2}
@@ -64,10 +60,12 @@ function FinalPage() {
             style={{ display: "block", margin: "10px auto", width: "300px" }}
           />
         </label>
+
         <button type="submit" style={{ padding: "8px 16px" }}>
           Submit Final Answers
         </button>
       </form>
+
       <p style={{ marginTop: "20px", fontWeight: "bold" }}>{message}</p>
     </div>
   );
