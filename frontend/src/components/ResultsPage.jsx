@@ -5,7 +5,7 @@ function ResultsPage() {
 
   const fetchResults = async () => {
     try {
-      const res = await fetch("http://localhost:5000/results");
+      const res = await fetch(`${import.meta.env.VITE_API_BASE}/results`);
       if (res.ok) {
         const json = await res.json();
         setresults(json);

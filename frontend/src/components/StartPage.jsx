@@ -14,7 +14,7 @@ const istTime = new Date(now.getTime() + offsetIST).toISOString();
     e.preventDefault();
     if (!team.trim()) return;
 
-    const res = await fetch("http://localhost:5000/start", {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE}/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ team, timestamp: istTime }),

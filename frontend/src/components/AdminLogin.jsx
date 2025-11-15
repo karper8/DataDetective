@@ -1,3 +1,4 @@
+console.log("API BASE IS:", import.meta.env.VITE_API_BASE);
 import { useState } from "react";
 
 function AdminLogin() {
@@ -7,7 +8,7 @@ function AdminLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/admin/login", {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE}/admin/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
